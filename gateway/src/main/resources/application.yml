@@ -1,0 +1,26 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: api-gateway
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+
+# Configuration des routes du Gateway
+spring.cloud.gateway:
+  routes:
+    - id: school-service
+      uri: lb://SCHOOL # Nom logique du service School dans Eureka
+      predicates:
+        - Path=/api/schools/**
+
+    - id: student-service
+      uri: lb://STUDENT # Nom logique du service Student dans Eureka
+      predicates:
+        - Path=/api/students/**
